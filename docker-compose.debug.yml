@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  wakatimegithub:
-    image: wakatimegithub
+  wakapigithub:
+    image: wakapigithub
     build:
       context: .
       dockerfile: ./Dockerfile
