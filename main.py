@@ -23,22 +23,31 @@ def format_seconds(seconds):
 while True:
     res = requests.get(wakapi_api,
     headers={
-        "Authorization": f"Basic {base64.b64encode(wakapi_key.encode("ascii")).decode("ascii")}"
+        "Authorization": f"Basic {base64.b64encode(wakapi_key.encode('ascii')).decode('ascii')}"
     },
     params={
         'interval': 'today'
-    }).json()
-
-    time = sum(project['total'] for project in res['projects'])
-
-    time_formatted = format_seconds(time)
-
-    requests.patch(github_api, headers={
-        'Accept': "application/vnd.github.v3+json",
-        'Authorization': f'token {github}'
-    }, json={
-        'bio': f'Today ({date.today()}) coded: {time_formatted}'
     })
+
+    if res.status_code == 200:
+
+        res = res.json()
+
+        time = sum(project['total'] for project in res['projects'])
+
+        time_formatted = format_seconds(time)
+
+        post = requests.patch(github_api, headers={
+            'Accept': "application/vnd.github.v3+json",
+            'Authorization': f'token {github}'
+        }, json={
+            'bio': f'Today ({date.today()}) coded: {time_formatted}'
+        })
+
+        if post.status_code == 200:
+            print("<SUCCESS> Bio updated: " + f'Today ({date.today()}) coded: {time_formatted}')
+        else:
+            print("<FAIL> " + post.content)
 
     # Update bio every 15 minutes
     sleep(900)
