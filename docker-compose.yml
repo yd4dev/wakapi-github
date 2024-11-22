@@ -1,8 +1,8 @@
-version: '3.4'
-
 services:
-  wakapigithub:
-    image: wakapigithub
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+  wakapi-github:
+    image: wakapi-github
+    environment:
+      GITHUB_API_KEY: ${GITHUB_API_KEY}
+      WAKAPI_API_KEY: ${WAKAPI_API_KEY}
+      WAKAPI_URL: ${WAKAPI_URL}
+    build: https://github.com/yd4dev/wakapi-github.git
