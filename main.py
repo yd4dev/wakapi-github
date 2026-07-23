@@ -47,7 +47,7 @@ while True:
         if post.status_code == 200:
             print("<SUCCESS> Bio updated: " + f'Today ({date.today()}) coded: {time_formatted}')
         else:
-            print("<FAIL> " + post.content)
+            print("<FAIL> " + post.text)
 
     # Update bio every 15 minutes
     sleep(900)
